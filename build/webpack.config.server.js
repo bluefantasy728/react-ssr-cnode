@@ -9,7 +9,7 @@ module.exports = {
   output: {
     filename: 'server-entry.js', //顺带着这里的入口文件也要改变，因为不需要缓存了，所以取消[name],[hash]之类的配置，直接是一个文件名即可
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '',
+    publicPath: '/public',
     libraryTarget: 'commonjs2' //使用最新的模块加载方案，适用于nodejs环境
   },
   module: {

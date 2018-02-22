@@ -7,7 +7,8 @@ module.exports = {
   },
   output: {
     filename: '[name].[hash].js',
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, '../dist'),
+    publicPath: '/public',
   },
   module: {
     rules: [
@@ -20,6 +21,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new HTMLWebpackPlugin()
+    new HTMLWebpackPlugin({
+      template: path.resolve(__dirname, '../client/template.html') //会在该模板文件中插入入口文件对应的打包好的资源文件
+    })
   ]
 }

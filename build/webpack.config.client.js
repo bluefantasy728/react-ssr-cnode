@@ -1,35 +1,41 @@
 const path = require('path')
 const webpack = require('webpack')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
+const webpackMerge = require('webpack-merge')
+const baseConfig = require('./webpack.base.js')
 
 const isDev = process.env.NODE_ENV === 'development' //在package.json里的script可以配置设置当前的运行环境，这里是可以获取到的
-// console.log(isDev)
 
-const config = {
+const config = webpackMerge(baseConfig, {
   entry: {
     app: path.resolve(__dirname, '../client/app.js')
   },
   output: {
     filename: '[name].[hash].js',
-    path: path.resolve(__dirname, '../dist'),
-    publicPath: '/public',
+    // path: path.resolve(__dirname, '../dist'),
+    // publicPath: '/public/', //这里一定要写成/public/，不要忘了后面的的/，否则在服务端渲染的时候，加载hot-update.json文件路径会出一次错，导致热更新失败，还是会刷新页面
   },
-  module: {
-    rules: [
-      {
-        test: /.(js|jsx)$/,
-        exclude: path.resolve(__dirname, '../node_modules'),
-        loader: 'babel-loader'
-      }
-      
-    ]
-  },
+  // module: {
+  //   rules: [
+  //     {
+  //       enforce: 'pre', //强制在编译代码前先执行eslint代码检测
+  //       test: /.(js|jsx)$/,
+  //       loader: 'eslint-loader',
+  //       exclude: path.resolve(__dirname, '../node_modules'),
+  //     },
+  //     {
+  //       test: /.(js|jsx)$/,
+  //       exclude: path.resolve(__dirname, '../node_modules'),
+  //       loader: 'babel-loader'
+  //     }
+  //   ]
+  // },
   plugins: [
     new HTMLWebpackPlugin({
       template: path.resolve(__dirname, '../client/template.html') //会在该模板文件中插入入口文件对应的打包好的资源文件
     })
   ]
-}
+})
 
 //设置了contentBase之后，相当于所有访问localhost:8888/filename这样的访问都是可以以静态的方式访问到，
 if(isDev) {

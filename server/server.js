@@ -2,10 +2,13 @@ const path = require('path')
 const fs = require('fs')
 const express = require('express')
 const ReactSSR = require('react-dom/server') //注意这里要引入的SSR在react-dom/server里
+const favicon = require('serve-favicon')
 
 const isDev = process.env.NODE_ENV === 'development'
 
 const app = express()
+
+app.use(favicon(path.resolve(__dirname, '../favicon.ico')))
 
 if(!isDev) {
   const serverEntry = require('../dist/server-entry.js').default //引入打包后的服务端渲染后的js文件，因为在webpack里设置了libraryTarget: 'commonjs2'，而在server-entry里我们是export default这个是es6的语法，所以这里要多写.default才能得到真正的serverEntry的内容
@@ -19,11 +22,9 @@ if(!isDev) {
     res.send(stringToSend)
   })
 } else { //这里是服务端在开发环境下的渲染模式，需要实时更新
-  const devStatic = require('./util/dev-static.js')
+	const devStatic = require('./util/dev-static.js')
   devStatic(app)
 }
-
-
 
 app.listen(3333, () => {
   console.log('server start!!! at port 3333');

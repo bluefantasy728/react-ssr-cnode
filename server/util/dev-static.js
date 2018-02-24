@@ -32,8 +32,6 @@ serverCompiler.watch({}, (err, stats) => {
     serverConfig.output.filename
   )
 
-  console.log(bundlePath)
-
   const bundleFileStr = mfs.readFileSync(bundlePath, 'utf8')
   const m = new Module()
   m._compile(bundleFileStr, 'server.js')

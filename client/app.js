@@ -12,20 +12,20 @@ import App from './App.jsx'
 // console.log(module.hot)
 const ndRoot = document.getElementById('root')
 const render = (Component) => {
-  const myRender = module.hot ? ReactDOM.render : ReactDOM.hydrate
-  myRender(
-    <AppContainer>
-      <Component />
-    </AppContainer>,
-    ndRoot,
-  )
+	const myRender = module.hot ? ReactDOM.render : ReactDOM.hydrate
+	myRender(
+		<AppContainer>
+			<Component />
+		</AppContainer>,
+		ndRoot,
+	)
 }
 
 render(App)
 
 if (module.hot) {
-  module.hot.accept('./App.jsx', () => {
-    const NextApp = require('./App.jsx').default
-    render(NextApp)
-  })
+	module.hot.accept('./App.jsx', () => {
+		const NextApp = require('./App.jsx').default
+		render(NextApp)
+	})
 }
